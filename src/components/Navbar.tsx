@@ -18,9 +18,9 @@ export default function Navbar({ onHireMeClick }: NavbarProps) {
           <button className="nav-link" onClick={() => scrollToId("reels") }>
             Reels
           </button>
-          <button className="nav-link" onClick={() => scrollToId("heightfield") }>
+          {/* <button className="nav-link" onClick={() => scrollToId("heightfield") }>
             Heightfield
-          </button>
+          </button> */}
           <button className="nav-link" onClick={() => scrollToId("about")}>
             About
           </button>

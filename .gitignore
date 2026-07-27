@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Source asset folders (site uses public/ copies)
+photos/
+reel and video/
+

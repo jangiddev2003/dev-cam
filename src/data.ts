@@ -18,21 +18,21 @@ export const STRIP: StripFrame[] = Array.from({ length: 10 }).map((_, i) => ({
 
 // Photos grid — 15 shots. src paths point to /public/images/photos/.
 const PHOTO_DATA: Array<{ label: string; category: Exclude<Category, "All">; src: string }> = [
-  { label: "BLACK BEACH",   category: "Street",    src: "/images/photos/photo-1.jpg" },
-  { label: "AXE MAN",       category: "Portraits", src: "/images/photos/photo-2.jpg" },
-  { label: "CITY RAIN",     category: "Street",    src: "/images/photos/photo-3.jpg" },
-  { label: "SHADOW FACE",   category: "Portraits", src: "/images/photos/photo-4.jpg" },
-  { label: "RIDGE HIKER",   category: "Street",    src: "/images/photos/photo-5.jpg" },
-  { label: "FESTIVAL",      category: "Events",    src: "/images/photos/photo-6.jpg" },
-  { label: "NOIR SCENT",    category: "Product",   src: "/images/photos/photo-7.jpg" },
-  { label: "MISTY PINES",   category: "Street",    src: "/images/photos/photo-8.jpg" },
-  { label: "ELDER",         category: "Portraits", src: "/images/photos/photo-9.jpg" },
-  { label: "DUNE AERIAL",   category: "Street",    src: "/images/photos/photo-10.jpg" },
-  { label: "BLUE DEEP",     category: "Street",    src: "/images/photos/photo-11.jpg" },
-  { label: "LAST LIGHT",    category: "Events",    src: "/images/photos/photo-12.jpg" },
-  { label: "SMOKE",         category: "Portraits", src: "/images/photos/photo-13.jpg" },
-  { label: "RUINS",         category: "Street",    src: "/images/photos/photo-14.jpg" },
-  { label: "MONSOON JOY",   category: "Street",    src: "/images/photos/photo-15.jpg" },
+  { label: "IMG 0805",              category: "Street",    src: "/images/photos/photo-1.jpg" },
+  { label: "IMG 0870",              category: "Portraits", src: "/images/photos/photo-2.jpg" },
+  { label: "IMG 0914",              category: "Events",    src: "/images/photos/photo-3.jpg" },
+  { label: "IMG 0929",              category: "Product",   src: "/images/photos/photo-4.jpg" },
+  { label: "IMG 1081",              category: "Street",    src: "/images/photos/photo-5.jpg" },
+  { label: "IMG 2580",              category: "Portraits", src: "/images/photos/photo-6.jpg" },
+  { label: "IMG 3029",              category: "Events",    src: "/images/photos/photo-7.jpg" },
+  { label: "IMG 3131",              category: "Product",   src: "/images/photos/photo-8.jpg" },
+  { label: "IMG 3805",              category: "Street",    src: "/images/photos/photo-9.jpg" },
+  { label: "IMG 4965",              category: "Portraits", src: "/images/photos/photo-10.jpg" },
+  { label: "IMG 5514",              category: "Events",    src: "/images/photos/photo-11.jpg" },
+  { label: "IMG 20240201",          category: "Product",   src: "/images/photos/photo-12.jpg" },
+  { label: "IMG 20251112",          category: "Street",    src: "/images/photos/photo-13.jpg" },
+  { label: "IMG 20251123",          category: "Portraits", src: "/images/photos/photo-14.jpg" },
+  { label: "IMG 20251124",          category: "Events",    src: "/images/photos/photo-15.jpg" },
 ];
 
 export const PHOTOS: Photo[] = PHOTO_DATA.map((d, i) => ({
@@ -41,35 +41,50 @@ export const PHOTOS: Photo[] = PHOTO_DATA.map((d, i) => ({
 }));
 
 // Reels grid. Add `src: "/images/reels/reel-1.mp4"` (or a thumbnail) per item.
-export const REELS: Reel[] = Array.from({ length: 6 }).map((_, i) => ({
-  id: `reel-${i + 1}`,
-  label: `REEL-${String(i + 1).padStart(2, "0")}`,
-}));
+export const REELS: Reel[] = [
+  { id: "reel-1", label: "REEL-01", src: "/images/reels/reel-1.mp4" },
+  { id: "reel-2", label: "REEL-02", src: "/images/reels/reel-2.mp4" },
+  { id: "reel-3", label: "REEL-03", src: "/images/reels/reel-3.mp4" },
+  { id: "reel-4", label: "REEL-04", src: "/images/reels/reel-4.mp4" },
+  { id: "reel-5", label: "REEL-05", src: "/images/reels/reel-5.mp4" },
+  { id: "reel-6", label: "REEL-06", src: "/images/reels/reel-6.mp4" },
+  { id: "reel-7", label: "REEL-07", src: "/images/reels/reel-7.mp4" },
+];
 
 export const HEIGHTFIELD_CARDS: HeightfieldCard[] = [
   {
-    id: "heightfield-shells",
-    label: "SHELLS",
-    description: "Curved plates, soft highlights, and pearly texture shifts across a slow morph.",
+    id: "heightfield-01",
+    label: "FRAME 01",
+    description: "Carousel seat one — front-facing study on the cylinder.",
   },
   {
-    id: "heightfield-abalone",
-    label: "ABALONE",
-    description: "Iridescent layers with ocean-tone color drift and a wet reflective finish.",
+    id: "heightfield-02",
+    label: "FRAME 02",
+    description: "Carousel seat two — soft turn along the arc.",
   },
   {
-    id: "heightfield-clouds",
-    label: "CLOUDS",
-    description: "Billowing forms, diffused edges, and a lifted sky-lit heightfield feel.",
+    id: "heightfield-03",
+    label: "FRAME 03",
+    description: "Carousel seat three — mid-orbit depth and rotation.",
   },
   {
-    id: "heightfield-tide",
-    label: "TIDE",
-    description: "A spare slot for your future image set, kept in the carousel for drag depth.",
+    id: "heightfield-04",
+    label: "FRAME 04",
+    description: "Carousel seat four — opposite side of the cylinder.",
   },
   {
-    id: "heightfield-opal",
-    label: "OPAL",
-    description: "A final placeholder for shimmering card rotation and layered card spacing.",
+    id: "heightfield-05",
+    label: "FRAME 05",
+    description: "Carousel seat five — returning along the curve.",
+  },
+  {
+    id: "heightfield-06",
+    label: "FRAME 06",
+    description: "Carousel seat six — near-front approach.",
+  },
+  {
+    id: "heightfield-07",
+    label: "FRAME 07",
+    description: "Carousel seat seven — closing the seven-image loop.",
   },
 ];

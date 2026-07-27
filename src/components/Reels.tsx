@@ -31,8 +31,19 @@ export default function Reels() {
             <div
               className="video-card carousel-reel-card"
               key={r.id}
-              style={r.src ? { backgroundImage: `url(${r.src})` } : undefined}
+              style={r.src && !r.src.endsWith(".mp4") ? { backgroundImage: `url(${r.src})` } : undefined}
             >
+              {r.src?.endsWith(".mp4") ? (
+                <video
+                  className="reel-video"
+                  src={r.src}
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  preload="metadata"
+                />
+              ) : null}
               <div className="card-overlay" />
               <span className="tag mono">{r.label}</span>
               <div className="play-dot">

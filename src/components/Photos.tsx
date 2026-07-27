@@ -22,21 +22,17 @@ function Lightbox({
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={`Photo: ${photo.label}`}
+      aria-label="Photo viewer"
     >
       <div className="lightbox-box" onClick={(e) => e.stopPropagation()}>
         <button className="lightbox-close mono" onClick={onClose} aria-label="Close">
           ✕
         </button>
         {photo.src ? (
-          <img src={photo.src} alt={photo.label} className="lightbox-img" />
+          <img src={photo.src} alt="" className="lightbox-img" />
         ) : (
-          <div className="lightbox-placeholder mono">{photo.label}</div>
+          <div className="lightbox-placeholder mono">Photo</div>
         )}
-        <div className="lightbox-meta">
-          <span className="mono lightbox-label">{photo.label}</span>
-          <span className="mono lightbox-cat">{photo.category}</span>
-        </div>
       </div>
     </div>
   );
@@ -153,12 +149,12 @@ export default function Photos() {
                 role={isActive ? "button" : undefined}
                 tabIndex={isActive ? 0 : -1}
                 onKeyDown={(e) => isActive && e.key === "Enter" && setLightbox(idx)}
-                aria-label={isActive ? `Open photo ${photo.label}` : undefined}
+                aria-label={isActive ? "Open photo" : undefined}
               >
                 {/* thumbnail image (common bg) */}
                 <div
                   className="stage-card-thumb"
-                  style={{ backgroundImage: `url(${THUMBNAIL})` }}
+                  style={{ backgroundImage: `url(${photo.src ?? THUMBNAIL})` }}
                 />
                 {/* actual photo shown when active, revealed via clip */}
                 {isActive && photo.src && (
@@ -168,13 +164,8 @@ export default function Photos() {
                   />
                 )}
                 <div className="stage-card-gradient" />
-                {!isActive && (
-                  <span className="mono stage-card-label">{photo.label}</span>
-                )}
                 {isActive && (
                   <div className="stage-card-info">
-                    <span className="mono stage-card-info-label">{photo.label}</span>
-                    <span className="mono stage-card-info-cat">{photo.category}</span>
                     <span className="mono stage-card-info-hint">CLICK TO OPEN</span>
                   </div>
                 )}
