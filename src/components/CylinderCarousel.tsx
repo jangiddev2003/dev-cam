@@ -29,10 +29,10 @@ const DRAG_SENS  = 0.006;
 const MOMENTUM   = 0.90;  // velocity decay per frame
 
 // placeholder warm tones while textures load
-const WARM_TONES = [
-  "#5c3d2e","#7a4f3a","#4a2c1a","#8a6040",
-  "#6b4c30","#9a7050","#7c5535","#4e3220",
-];
+// const WARM_TONES = [
+//   "#5c3d2e","#7a4f3a","#4a2c1a","#8a6040",
+//   "#6b4c30","#9a7050","#7c5535","#4e3220",
+// ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function frontness(angle: number): number {
@@ -46,31 +46,31 @@ function smoothstep(x: number): number {
 // ShapeGeometry from a rounded-rect Shape gives a single-face mesh where the
 // UV exactly covers [0,1]×[0,1] after we remap from shape coordinates.
 // This matches the card frame's rounded outline, eliminating square-corner bleed.
-function makeRoundedRectGeo(w: number, h: number, r: number, segs = 8) {
-  const hw = w / 2, hh = h / 2;
-  const shape = new THREE.Shape();
-  shape.moveTo(-hw + r, -hh);
-  shape.lineTo( hw - r, -hh);
-  shape.quadraticCurveTo( hw, -hh,  hw, -hh + r);
-  shape.lineTo( hw,  hh - r);
-  shape.quadraticCurveTo( hw,  hh,  hw - r,  hh);
-  shape.lineTo(-hw + r,  hh);
-  shape.quadraticCurveTo(-hw,  hh, -hw,  hh - r);
-  shape.lineTo(-hw, -hh + r);
-  shape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
+// function makeRoundedRectGeo(w: number, h: number, r: number, segs = 8) {
+//   const hw = w / 2, hh = h / 2;
+//   const shape = new THREE.Shape();
+//   shape.moveTo(-hw + r, -hh);
+//   shape.lineTo( hw - r, -hh);
+//   shape.quadraticCurveTo( hw, -hh,  hw, -hh + r);
+//   shape.lineTo( hw,  hh - r);
+//   shape.quadraticCurveTo( hw,  hh,  hw - r,  hh);
+//   shape.lineTo(-hw + r,  hh);
+//   shape.quadraticCurveTo(-hw,  hh, -hw,  hh - r);
+//   shape.lineTo(-hw, -hh + r);
+//   shape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
 
-  const geo = new THREE.ShapeGeometry(shape, segs);
+//   const geo = new THREE.ShapeGeometry(shape, segs);
 
-  // Remap UV: shape coords are in [-hw,hw] × [-hh,hh]; map to [0,1]×[0,1]
-  const pos  = geo.attributes.position as THREE.BufferAttribute;
-  const uvArr = new Float32Array(pos.count * 2);
-  for (let i = 0; i < pos.count; i++) {
-    uvArr[i * 2]     = pos.getX(i) / w + 0.5;  // x: [-hw,hw] → [0,1]
-    uvArr[i * 2 + 1] = pos.getY(i) / h + 0.5;  // y: [-hh,hh] → [0,1]
-  }
-  geo.setAttribute('uv', new THREE.BufferAttribute(uvArr, 2));
-  return geo;
-}
+//   // Remap UV: shape coords are in [-hw,hw] × [-hh,hh]; map to [0,1]×[0,1]
+//   const pos  = geo.attributes.position as THREE.BufferAttribute;
+//   const uvArr = new Float32Array(pos.count * 2);
+//   for (let i = 0; i < pos.count; i++) {
+//     uvArr[i * 2]     = pos.getX(i) / w + 0.5;  // x: [-hw,hw] → [0,1]
+//     uvArr[i * 2 + 1] = pos.getY(i) / h + 0.5;  // y: [-hh,hh] → [0,1]
+//   }
+//   geo.setAttribute('uv', new THREE.BufferAttribute(uvArr, 2));
+//   return geo;
+// }
 // ─── Curved phone-screen geometry ───────────────────────────────────────────────
 // PlaneGeometry with the outer BEND_FRAC portion of each side bent backward
 // along a smooth cosine arc. computeVertexNormals() after deformation gives

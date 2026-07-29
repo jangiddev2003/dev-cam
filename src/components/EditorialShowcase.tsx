@@ -16,8 +16,8 @@ function ProjectStory({ project, index }: { project: EditorialProject; index: nu
   });
   const frameOpacity = useTransform(scrollYProgress, [0, 0.18, 0.76, 1], [0.18, 1, 1, 0.15]);
   const frameScale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.97, 1, 1, 0.98]);
-  const imageScale = useTransform(scrollYProgress, [0.12, 0.48], [1.08, 1]);
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+  // const imageScale = useTransform(scrollYProgress, [0.12, 0.48], [1.08, 1]);
+  // const imageY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
     <article className="editorial-project" ref={projectRef}>
