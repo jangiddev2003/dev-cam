@@ -91,27 +91,30 @@ export const HEIGHTFIELD_CARDS: HeightfieldCard[] = [
 
 // Each gallery image is an object so we can carry a per-image `object-position`.
 // Default `position` values set to "center 20%"; adjust per-image later.
+// Pre-wedding shoot images — 10 unique shots, each used twice to fill 20 carousel slots
+const PW = (f: string) => ({ src: `/images/prewedding/${encodeURIComponent(f)}`, position: "center center" });
 export const SPIRAL_GALLERY_IMAGES = [
-  { src: "/images/photos/photo-1.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-2.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-3.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-4.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-5.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-6.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-7.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-8.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-9.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-10.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-11.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-12.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-13.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-14.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-15.jpg", position: "center 20%" },
-  { src: "/images/photos/photo-2.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-4.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-6.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-9.jpg",  position: "center 20%" },
-  { src: "/images/photos/photo-13.jpg", position: "center 20%" },
+  PW("WhatsApp Image 2026-07-27 at 2.45.41 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.41 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM (2).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM (2).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.44 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.44 PM.jpeg"),
+  // second pass — carousel loops smoothly with 20 total slots
+  PW("WhatsApp Image 2026-07-27 at 2.45.41 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.41 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM (2).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.42 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM (2).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.43 PM.jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.44 PM (1).jpeg"),
+  PW("WhatsApp Image 2026-07-27 at 2.45.44 PM.jpeg"),
 ];
 
 export const EDITORIAL_PROJECTS: EditorialProject[] = [
@@ -120,6 +123,6 @@ export const EDITORIAL_PROJECTS: EditorialProject[] = [
     description: "Every frame tells a story.\n\nFrom portraits and travel films to cinematic edits and social content, I create visuals people remember.",
     quote: "PHOTOGRAPHER • VIDEOGRAPHER • EDITOR • CREATOR",
     metadata: "SPECIALIZED IN",
-    specializations: ["PORTRAITS", "TRAVEL", "LIFESTYLE", "COMMERCIAL", "REELS", "COLOR GRADING"],
+    specializations: ["PORTRAITS", "PRE-WEDDING SHOOT", "TRAVEL", "LIFESTYLE", "COMMERCIAL", "REELS", "COLOR GRADING"],
   },
 ];

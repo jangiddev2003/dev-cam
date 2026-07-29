@@ -8,9 +8,9 @@ const IMAGES  = SPIRAL_GALLERY_IMAGES as unknown as { src: string; position: str
 const TOTAL   = IMAGES.length;
 
 // ─── Helix geometry — tuned for the 260 × 560 px tornado-box ──────────────────
-/** Portrait card dimensions at scale = 1 (centre card) */
-const CARD_W = 106;
-const CARD_H = 148;
+/** Square card dimensions — works with any image orientation (cover always fills fully) */
+const CARD_W = 120;
+const CARD_H = 120;
 /** Camera perspective */
 const PERSPECTIVE = 620;
 /**
@@ -19,35 +19,40 @@ const PERSPECTIVE = 620;
  * Negative offsets mirror this to create the full tornado spiral.
  */
 const ANGLE_SPAN = Math.PI * 1.15;
-/** Horizontal radius of the helix arc (px).
- *  sin peaks at ~1 midway → peak x ≈ 88 px, well inside 130 px half-width. */
+/** Horizontal radius of the helix arc (px). */
 const SPIRAL_X_R = 88;
-/** How deep the arc recedes (px).
- *  z = -(1 − cos(angle)) × SPIRAL_Z_R/2  →  0 at centre, −max at edges. */
+/** How deep the arc recedes (px). z = -(1-cosα)×R/2 → 0 at centre, −max at edges. */
 const SPIRAL_Z_R = 560;
-/** Vertical spacing between adjacent card centres (px).
- *  ±7 × 38 = ±266 px < 280 px half-height → fits inside the box. */
-const STEP_Y = 38;
+/** Vertical spacing between adjacent card centres (px). ±7×34=±238 < 280 half-height. */
+const STEP_Y = 34;
 /** Maximum Y-axis card rotation (deg) — cards angle into the spiral tangent. */
 const ROT_Y_MAX = 42;
+/**
+ * Pixels of scroll that equal one full card-step.
+ * 120 px feels deliberate but responsive.
+ */
+const SCROLL_PER_STEP = 120;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
 }
 
+/**
+ * Computes the CSS style for a card given its float visual offset from centre.
+ * offset = 0   → front/centre card (largest, sharpest, brightest)
+ * offset = ±7  → furthest cards (smallest, blurriest, darkest)
+ * Accepts float offsets so positions interpolate continuously per-pixel.
+ */
 function getCardStyle(
   offset: number,
   mouseParallax: { x: number; y: number }
 ): React.CSSProperties {
   const absOffset = Math.abs(offset);
-  /** Normalised position along the helix: −1 … 0 … +1 */
-  const t = HALF > 0 ? offset / HALF : 0;
-  /** Helix angle for this card */
-  const angle = t * ANGLE_SPAN;
+  const t         = HALF > 0 ? offset / HALF : 0;  // normalised −1 … +1
+  const angle     = t * ANGLE_SPAN;                  // helix angle
 
   // ── Sinusoidal X — creates the S-curve / tornado shape ──────────────────────
-  // sin(0)=0 (centre), sin peaks ~mid-arc, wraps back as arc continues.
   const x = Math.sin(angle) * SPIRAL_X_R
     + mouseParallax.x * Math.max(0, 1 - absOffset / (HALF + 1)) * 0.38;
 
@@ -55,13 +60,10 @@ function getCardStyle(
   const y = -offset * STEP_Y
     + mouseParallax.y * Math.max(0, 1 - absOffset / (HALF + 1)) * 0.22;
 
-  // ── Cosine Z — cards recede smoothly; 0 at centre, deepest at edges ─────────
-  // z = −(1 − cosα) × R/2  →  0 at α=0, −R at α=π, −(1−cosα)×R/2 elsewhere
+  // ── Cosine Z — smooth depth recession; 0 at centre, deepest at edges ─────────
   const z = -(1 - Math.cos(angle)) * (SPIRAL_Z_R / 2);
 
-  // ── Y-rotation — cards face the spiral tangent (like pages of a fan) ────────
-  // cos(angle) gives the tangent direction: +1 at centre → no tilt, ±0 at peak.
-  // We use −sin(angle) so the face always turns toward the viewer along the arc.
+  // ── Y-rotation — cards face the spiral tangent ────────────────────────────────
   const rotY = -Math.sin(angle) * ROT_Y_MAX;
 
   // ── Z-roll — subtle lean into the spiral ────────────────────────────────────
@@ -69,10 +71,10 @@ function getCardStyle(
 
   // ── Depth-based focus drop-off ───────────────────────────────────────────────
   const focusFraction = Math.max(0, 1 - absOffset / (HALF + 1));
-  const scale      = 0.30 + focusFraction * 0.70;   // 0.30 far → 1.00 centre
-  const blur       = absOffset * 1.9;                // px blur per step
-  const opacity    = 0.08 + focusFraction * 0.92;   // 0.08 far → 1.00 centre
-  const brightness = 0.22 + focusFraction * 0.78;   // 0.22 far → 1.00 centre
+  const scale      = 0.30 + focusFraction * 0.70;
+  const blur       = absOffset * 1.4;                // softer blur — details stay readable
+  const opacity    = 0.12 + focusFraction * 0.88;
+  const brightness = 0.38 + focusFraction * 0.62;   // 0.38 far → 1.00 centre (moody not invisible)
 
   const filterParts: string[] = [];
   if (blur > 0.25) filterParts.push(`blur(${blur.toFixed(1)}px)`);
@@ -96,10 +98,11 @@ function getCardStyle(
     filter: filterParts.join(" "),
     opacity,
     willChange: "transform, filter, opacity",
-    transition:
-      "transform 0.42s cubic-bezier(0.22,1,0.36,1), filter 0.42s ease, opacity 0.42s ease",
-    borderRadius: 9,
+    // No CSS transition — positions are driven frame-by-frame via rAF lerp,
+    // so CSS transitions would fight the animation and cause double-easing.
+    borderRadius: 10,
     overflow: "hidden",
+    background: "#000",          // black fill — no white bleeds through on any image
     boxShadow:
       absOffset < 0.5
         ? "0 20px 56px rgba(0,0,0,0.85), 0 4px 14px rgba(0,0,0,0.65)"
@@ -109,78 +112,127 @@ function getCardStyle(
   };
 }
 
-
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function TornadoStream() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const boxRef = useRef<HTMLDivElement>(null);
+  // ── Continuous float progress ─────────────────────────────────────────────────
+  // targetProgressRef  → raw accumulated scroll (updated on every wheel event)
+  // currentProgressRef → lerped value chasing target each rAF tick
+  // renderProgress     → React state that schedules re-renders
+  const targetProgressRef  = useRef(0);
+  const currentProgressRef = useRef(0);
+  const rafRef             = useRef<number>(0);
+  const [renderProgress, setRenderProgress] = useState(0);
+
+  const boxRef    = useRef<HTMLDivElement>(null);
   const insideRef = useRef(false);
-  const scrollAccRef = useRef(0);
   const [mouseParallax, setMouseParallax] = useState({ x: 0, y: 0 });
 
-  // ── Scroll isolation ────────────────────────────────────────────────────────
+  // ── rAF lerp loop ─────────────────────────────────────────────────────────────
+  // Runs every frame. Closes 9% of remaining distance per tick →
+  // ~160 ms settle at 60 fps — fast enough to feel responsive, slow enough to
+  // look cinematic. Stops scheduling renders once settled (MIN_DELTA guard).
+  useEffect(() => {
+    const LERP      = 0.09;
+    const MIN_DELTA = 0.0004;
+
+    const tick = () => {
+      const target = targetProgressRef.current;
+      const cur    = currentProgressRef.current;
+      const diff   = target - cur;
+
+      if (Math.abs(diff) > MIN_DELTA) {
+        const next = cur + diff * LERP;
+        currentProgressRef.current = next;
+        setRenderProgress(next);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // ── Wheel handler — accumulates raw pixel delta into targetProgress ────────────
   const onWheel = useCallback((e: WheelEvent) => {
     if (!insideRef.current) return;
     e.preventDefault();
     e.stopPropagation();
 
-    // Accumulate scroll delta (normalise between wheel modes)
-    const delta = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
-    scrollAccRef.current += delta;
+    const delta =
+      e.deltaMode === 1 ? e.deltaY * 32 :
+      e.deltaMode === 2 ? e.deltaY * window.innerHeight * 0.8 :
+      e.deltaY;
 
-    // Snap per 80 px of accumulated scroll — one frame per tick
-    const threshold = 80;
-    while (Math.abs(scrollAccRef.current) >= threshold) {
-      if (scrollAccRef.current > 0) {
-        setActiveIndex((i) => mod(i + 1, TOTAL));
-        scrollAccRef.current -= threshold;
-      } else {
-        setActiveIndex((i) => mod(i - 1, TOTAL));
-        scrollAccRef.current += threshold;
-      }
-    }
+    targetProgressRef.current += delta / SCROLL_PER_STEP;
   }, []);
 
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
-    // Must use { passive: false } to allow preventDefault inside the box
     box.addEventListener("wheel", onWheel, { passive: false });
     return () => box.removeEventListener("wheel", onWheel);
   }, [onWheel]);
 
-  // ── Mouse enter/leave for scroll isolation ───────────────────────────────────
-  const onMouseEnter = useCallback(() => {
-    insideRef.current = true;
-  }, []);
+  // ── Mouse enter / leave ───────────────────────────────────────────────────────
+  const onMouseEnter = useCallback(() => { insideRef.current = true; }, []);
   const onMouseLeave = useCallback(() => {
     insideRef.current = false;
     setMouseParallax({ x: 0, y: 0 });
   }, []);
 
-  // ── Parallax from cursor outside box ─────────────────────────────────────────
+  // ── External cursor parallax ──────────────────────────────────────────────────
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (insideRef.current) return;
       const box = boxRef.current;
       if (!box) return;
       const rect = box.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / window.innerWidth;
-      const dy = (e.clientY - cy) / window.innerHeight;
+      const cx   = rect.left + rect.width  / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (e.clientX - cx) / window.innerWidth;
+      const dy   = (e.clientY - cy) / window.innerHeight;
       setMouseParallax({ x: dx * 18, y: dy * 12 });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // ── Build the visible card list ───────────────────────────────────────────────
-  const slots = Array.from({ length: VISIBLE }, (_, i) => {
-    const offset = i - HALF; // -HALF … +HALF
-    const imgIndex = mod(activeIndex + offset, TOTAL);
-    return { offset, imgIndex };
-  });
+  // ── Build fractional card slots ───────────────────────────────────────────────
+  // Wrap renderProgress into [0, TOTAL) for valid image indexing.
+  const wrapped   = ((renderProgress % TOTAL) + TOTAL) % TOTAL;
+  const baseIndex = Math.floor(wrapped);  // image "home" at frac = 0
+  const frac      = wrapped - baseIndex;  // 0–1: fractional step in progress
+
+  /**
+   * VISIBLE+2 candidate slots — one extra on each end covers the transition
+   * zone so cards appear before they scroll into the visible window.
+   * Each slot receives a *float* visualOffset so getCardStyle can interpolate
+   * transform/filter/opacity continuously rather than snapping.
+   *
+   * How it works:
+   *   visualOffset = slotIdx − frac
+   *   When frac = 0:   visualOffset is integer (stable)
+   *   When frac = 0.5: every card is halfway between two integer positions
+   *   When frac → 1:   cards approach next integer; at boundary baseIndex++
+   *                    and frac resets to 0 — seamless wrap.
+   *
+   * Image content swaps only at integer boundaries, at which point the
+   * outgoing card is already far off-centre (small & dark), so the swap
+   * is visually invisible.
+   */
+  const slots = (
+    Array.from({ length: VISIBLE + 2 }, (_, i) => {
+      const slotIdx      = i - HALF - 1;       // –HALF–1 … HALF+1
+      const visualOffset = slotIdx - frac;      // float offset from visual centre
+      if (Math.abs(visualOffset) > HALF + 0.51) return null;
+      const imgIndex = mod(baseIndex + slotIdx, TOTAL);
+      return { key: slotIdx, visualOffset, imgIndex };
+    }).filter(Boolean)
+  ) as { key: number; visualOffset: number; imgIndex: number }[];
+
+  // Counter shows whichever image is closest to the visual centre.
+  const displayIndex = mod(Math.round(renderProgress), TOTAL);
 
   return (
     <>
@@ -221,15 +273,15 @@ export default function TornadoStream() {
               style={{ perspective: PERSPECTIVE }}
             >
               <div className="tornado-stage-inner">
-                {slots.map(({ offset, imgIndex }) => (
+                {slots.map(({ key, visualOffset, imgIndex }) => (
                   <div
-                    key={`slot-${offset}`}
-                    style={getCardStyle(offset, mouseParallax)}
-                    aria-hidden={offset !== 0}
+                    key={`slot-${key}`}
+                    style={getCardStyle(visualOffset, mouseParallax)}
+                    aria-hidden={Math.abs(visualOffset) > 0.5}
                   >
                     <img
                       src={IMAGES[imgIndex].src}
-                      alt={offset === 0 ? `Photo ${imgIndex + 1}` : ""}
+                      alt={Math.abs(visualOffset) < 0.5 ? `Photo ${imgIndex + 1}` : ""}
                       draggable={false}
                       style={{
                         width: "100%",
@@ -241,8 +293,8 @@ export default function TornadoStream() {
                       }}
                       loading="lazy"
                     />
-                    {/* Subtle vignette on centre card */}
-                    {offset === 0 && (
+                    {/* Subtle vignette on the card closest to centre */}
+                    {Math.abs(visualOffset) < 0.5 && (
                       <div
                         style={{
                           position: "absolute",
@@ -263,7 +315,7 @@ export default function TornadoStream() {
 
             {/* Index counter */}
             <div className="tornado-counter mono">
-              {String(activeIndex + 1).padStart(2, "0")} /{" "}
+              {String(displayIndex + 1).padStart(2, "0")} /{" "}
               {String(TOTAL).padStart(2, "0")}
             </div>
           </div>
