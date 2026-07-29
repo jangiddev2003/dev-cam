@@ -116,9 +116,10 @@ export const SPIRAL_GALLERY_IMAGES = [
 
 export const EDITORIAL_PROJECTS: EditorialProject[] = [
   {
-    title: "Quiet\nPortraits.",
-    description: "A study in stillness, soft contrast, and the small gestures that make a portrait feel entirely lived in.",
-    quote: "The most honest image is often the one that leaves room to breathe.",
-    metadata: "PORTRAIT SERIES  /  2025  /  NATURAL LIGHT",
+    title: "HELLO,\nI'M DEV",
+    description: "Every frame tells a story.\n\nFrom portraits and travel films to cinematic edits and social content, I create visuals people remember.",
+    quote: "PHOTOGRAPHER • VIDEOGRAPHER • EDITOR • CREATOR",
+    metadata: "SPECIALIZED IN",
+    specializations: ["PORTRAITS", "TRAVEL", "LIFESTYLE", "COMMERCIAL", "REELS", "COLOR GRADING"],
   },
 ];

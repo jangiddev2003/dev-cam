@@ -35,6 +35,7 @@ export interface EditorialProject {
   description: string;
   quote: string;
   metadata: string;
+  specializations?: string[];
 }
 
 export interface HireMeForm {

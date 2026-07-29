@@ -32,20 +32,45 @@ function ProjectStory({ project, index }: { project: EditorialProject; index: nu
           viewport={{ amount: 0.42, once: true }}
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.13, delayChildren: 0.08 } },
+            visible: { transition: { staggerChildren: 0.11, delayChildren: 0.06 } },
           }}
         >
+          {/* Section counter */}
           <motion.p className="editorial-kicker mono" variants={copyReveal}>
             04 / SELECTED STORIES / {String(index + 1).padStart(2, "0")}
           </motion.p>
-          <motion.h2 className="editorial-title" variants={copyReveal}>
+
+          {/* Bold intro heading */}
+          <motion.h2 className="editorial-title editorial-title--bold" variants={copyReveal}>
             {project.title.split("\n").map((line) => <span key={line}>{line}</span>)}
           </motion.h2>
-          <motion.p className="editorial-description" variants={copyReveal}>{project.description}</motion.p>
-          <motion.blockquote className="editorial-quote" variants={copyReveal}>
-            <span aria-hidden="true">“</span>{project.quote}
-          </motion.blockquote>
-          <motion.div className="editorial-meta mono" variants={copyReveal}>{project.metadata}</motion.div>
+
+          {/* Role strip */}
+          <motion.p className="editorial-roles mono" variants={copyReveal}>
+            {project.quote}
+          </motion.p>
+
+          {/* Body paragraphs — split on \n\n */}
+          {project.description.split("\n\n").map((para, i) => (
+            <motion.p
+              key={i}
+              className={i === 0 ? "editorial-lead" : "editorial-description"}
+              variants={copyReveal}
+            >
+              {para}
+            </motion.p>
+          ))}
+
+          {/* SPECIALIZED IN + list */}
+          <motion.div className="editorial-meta mono" variants={copyReveal}>
+            {project.metadata}
+          </motion.div>
+          {project.specializations && (
+            <motion.ul className="editorial-spec-list mono" variants={copyReveal}>
+              {project.specializations.map((s) => <li key={s}>{s}</li>)}
+            </motion.ul>
+          )}
+
           <motion.a className="editorial-cta mono" href="#contact" variants={copyReveal}>
             START A CONVERSATION <span aria-hidden="true">↗</span>
           </motion.a>

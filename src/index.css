@@ -494,6 +494,52 @@ input:focus-visible {
 
 .editorial-title span { display: block; }
 
+/* Bold all-caps variant for the HELLO I'M DEV heading */
+.editorial-title--bold {
+  font-family: "Outfit", "Inter", sans-serif;
+  font-size: clamp(48px, 6.8vw, 96px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: #1a1208;
+}
+
+/* PHOTOGRAPHER • VIDEOGRAPHER … role strip */
+.editorial-roles {
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  line-height: 1.9;
+}
+
+/* "Every frame tells a story." — bold lead sentence */
+.editorial-lead {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: clamp(14px, 1.35vw, 17px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Specialisations vertical list */
+.editorial-spec-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.editorial-spec-list li {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #1a1208;
+  line-height: 1.75;
+}
+
 .editorial-description {
   max-width: 390px;
   margin: 0;
