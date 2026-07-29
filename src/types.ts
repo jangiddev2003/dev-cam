@@ -30,6 +30,13 @@ export interface HeightfieldCard {
   src?: string;
 }
 
+export interface EditorialProject {
+  title: string;
+  description: string;
+  quote: string;
+  metadata: string;
+}
+
 export interface HireMeForm {
   name: string;
   email: string;

@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Photos from "./components/Photos";
 import Reels from "./components/Reels";
+import TornadoStream from "./components/TornadoStream";
+import EditorialShowcase from "./components/EditorialShowcase";
 import AboutContact from "./components/AboutContact";
 import Footer from "./components/Footer";
 import HireMeModal from "./components/HireMeModal";
 
-// 3D cylindrical carousel temporarily disabled
-// const HeightfieldCards = lazy(() => import("./components/HeightfieldCards"));
+const HeightfieldCards = lazy(() => import("./components/HeightfieldCards"));
 
 export default function App() {
   const [hireMeOpen, setHireMeOpen] = useState(false);
@@ -16,10 +17,11 @@ export default function App() {
   return (
     <>
       <Navbar onHireMeClick={() => setHireMeOpen(true)} />
+      <EditorialShowcase />
       <Hero />
       <Photos />
       <Reels />
-      {/*
+      <TornadoStream />
       <Suspense
         fallback={
           <section id="heightfield" className="section section-alt">
@@ -29,7 +31,6 @@ export default function App() {
       >
         <HeightfieldCards />
       </Suspense>
-      */}
       <AboutContact onHireMeClick={() => setHireMeOpen(true)} />
       <Footer />
       {hireMeOpen && <HireMeModal onClose={() => setHireMeOpen(false)} />}

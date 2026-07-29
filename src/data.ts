@@ -1,4 +1,4 @@
-import type { Category, HeightfieldCard, StripFrame, Photo, Reel } from "./types";
+import type { Category, EditorialProject, HeightfieldCard, StripFrame, Photo, Reel } from "./types";
 
 export const SITE = {
   name: "Dev Jangid",
@@ -86,5 +86,39 @@ export const HEIGHTFIELD_CARDS: HeightfieldCard[] = [
     id: "heightfield-07",
     label: "FRAME 07",
     description: "Carousel seat seven — closing the seven-image loop.",
+  },
+];
+
+// Each gallery image is an object so we can carry a per-image `object-position`.
+// Default `position` values set to "center 20%"; adjust per-image later.
+export const SPIRAL_GALLERY_IMAGES = [
+  { src: "/images/photos/photo-1.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-2.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-3.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-4.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-5.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-6.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-7.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-8.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-9.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-10.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-11.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-12.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-13.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-14.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-15.jpg", position: "center 20%" },
+  { src: "/images/photos/photo-2.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-4.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-6.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-9.jpg",  position: "center 20%" },
+  { src: "/images/photos/photo-13.jpg", position: "center 20%" },
+];
+
+export const EDITORIAL_PROJECTS: EditorialProject[] = [
+  {
+    title: "Quiet\nPortraits.",
+    description: "A study in stillness, soft contrast, and the small gestures that make a portrait feel entirely lived in.",
+    quote: "The most honest image is often the one that leaves room to breathe.",
+    metadata: "PORTRAIT SERIES  /  2025  /  NATURAL LIGHT",
   },
 ];

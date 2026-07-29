@@ -430,6 +430,187 @@ input:focus-visible {
   margin: 0;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   EDITORIAL SHOWCASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.editorial-showcase {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px 0;
+}
+
+.editorial-showcase-intro {
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  padding: 0 0 22px;
+  border-bottom: 1px solid rgba(180, 122, 66, 0.28);
+}
+
+.editorial-project {
+  min-height: 112vh;
+  position: relative;
+}
+
+.editorial-project-frame {
+  position: sticky;
+  top: 74px;
+  min-height: calc(100vh - 100px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(36px, 7vw, 112px);
+  padding: clamp(42px, 6vw, 88px) clamp(24px, 5vw, 72px);
+  overflow: hidden;
+  background: linear-gradient(122deg, #f9f5ef 0%, #f1e6da 100%);
+  border: 1px solid rgba(180, 122, 66, 0.28);
+  border-top: 0;
+  box-shadow: 0 24px 64px rgba(90, 60, 35, 0.1);
+}
+
+.editorial-copy {
+  max-width: 470px;
+  position: relative;
+  z-index: 1;
+}
+
+.editorial-kicker,
+.editorial-meta {
+  margin: 0;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+
+.editorial-title {
+  margin: clamp(18px, 3vw, 32px) 0 20px;
+  color: #352318;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 7vw, 98px);
+  font-weight: 400;
+  line-height: 0.83;
+  letter-spacing: -0.075em;
+}
+
+.editorial-title span { display: block; }
+
+.editorial-description {
+  max-width: 390px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.7;
+}
+
+.editorial-quote {
+  max-width: 390px;
+  margin: clamp(26px, 3vw, 40px) 0;
+  padding: 0 0 0 18px;
+  border-left: 1px solid var(--accent);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.editorial-quote span {
+  color: var(--accent);
+  font-size: 1.35em;
+  line-height: 0;
+}
+
+.editorial-meta {
+  padding-top: 14px;
+  border-top: 1px solid rgba(75, 52, 37, 0.16);
+}
+
+.editorial-cta {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 10px 0;
+  color: var(--text);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  transition: color 180ms ease, gap 180ms ease;
+}
+
+.editorial-cta:hover { color: var(--accent); gap: 17px; }
+
+.editorial-image-wrap {
+  align-self: stretch;
+  min-height: min(64vw, 620px);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px 2px 52px 2px;
+  background: var(--surface);
+  box-shadow: 18px 18px 0 rgba(182, 122, 66, 0.13);
+}
+
+.editorial-empty-panel {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: -5% 0;
+  background: #080706;
+  will-change: transform;
+}
+
+/* ── Cylinder Carousel ── */
+.cylinder-carousel-root {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.cylinder-carousel-root canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.cylinder-drag-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(248, 243, 236, 0.12);
+  border: 1px solid rgba(212, 184, 150, 0.28);
+  backdrop-filter: blur(6px);
+  color: rgba(248, 243, 236, 0.55);
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.cylinder-carousel-root:hover .cylinder-drag-hint {
+  opacity: 0;
+}
+
+.editorial-image-caption {
+  position: absolute;
+  z-index: 1;
+  right: 16px;
+  bottom: 15px;
+  padding: 7px 10px;
+  color: #f9f5ef;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  background: rgba(53, 35, 24, 0.7);
+  backdrop-filter: blur(5px);
+}
+
 /* ═══════════════════════════════════════════════════════════
    TABS
    ═══════════════════════════════════════════════════════════ */
@@ -1082,6 +1263,200 @@ input:focus-visible {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   TORNADO STREAM  (Section 03)
+   ═══════════════════════════════════════════════════════════ */
+.tornado-section {
+  background:
+    radial-gradient(circle at 20% 50%, rgba(182,122,66,0.07) 0%, transparent 40%),
+    linear-gradient(180deg, #f8f3ec 0%, #f2e8dc 100%);
+  overflow: hidden;
+}
+
+/* Two-column row: narrow stream box | wider copy */
+.tornado-layout {
+  display: flex;
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+/* ── The black box ────────────────────────────────────────── */
+.tornado-box {
+  position: relative;
+  flex-shrink: 0;
+  width: 260px;
+  height: 560px;
+  background: #080706;
+  border-radius: 18px;
+  border: 1px solid rgba(182,122,66,0.22);
+  box-shadow:
+    0 28px 80px rgba(0,0,0,0.30),
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 32px 64px rgba(90,60,35,0.12);
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* Subtle copper top edge glow */
+.tornado-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(182,122,66,0.55), transparent);
+  z-index: 20;
+}
+
+/* Fade vignette at top and bottom of the box */
+.tornado-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,7,6,0.75) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(8,7,6,0.75) 100%);
+  pointer-events: none;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+/* ── 3D stage ─────────────────────────────────────────────── */
+.tornado-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+}
+
+.tornado-stage-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* ── Hint & counter overlays ──────────────────────────────── */
+.tornado-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: rgba(248,243,236,0.38);
+  white-space: nowrap;
+  z-index: 30;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.tornado-box:hover .tornado-hint {
+  opacity: 0;
+}
+
+.tornado-counter {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(248,243,236,0.55);
+  z-index: 30;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.tornado-box:hover .tornado-counter {
+  color: rgba(182,122,66,0.85);
+}
+
+/* ── Right-side copy ─────────────────────────────────────── */
+.tornado-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tornado-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin: 0;
+}
+
+.tornado-headline {
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.0;
+  color: var(--text);
+  margin: 0;
+}
+
+.tornado-body {
+  font-size: clamp(14px, 1.4vw, 16px);
+  line-height: 1.72;
+  color: var(--muted);
+  margin: 0;
+  max-width: 360px;
+}
+
+.tornado-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.tornado-meta-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.tornado-meta-value {
+  display: block;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.tornado-meta-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--line);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .tornado-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+  .tornado-box {
+    width: 220px;
+    height: 460px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
    HEIGHTFIELD CARDS
    ═══════════════════════════════════════════════════════════ */
 .heightfield-section {
@@ -1434,11 +1809,6 @@ input:focus-visible {
   border-radius: 22px;
   overflow: hidden;
   isolation: isolate;
-  perspective: 2200px;
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-  will-change: transform;
   background:
     radial-gradient(circle at 50% 43%, rgba(182, 122, 66, 0.12), transparent 36%),
     linear-gradient(180deg, #100c0a 0%, #070504 100%);
@@ -1454,11 +1824,6 @@ input:focus-visible {
   touch-action: pan-y;
   cursor: grab;
   outline: none;
-  perspective: 2200px;
-  perspective-origin: 50% 50%;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-  will-change: transform;
   background: #0F0B09;
 }
 
@@ -1466,7 +1831,6 @@ input:focus-visible {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
-  transform: translateZ(0);
 }
 
 .heightfield-stage:active {
@@ -2113,8 +2477,8 @@ body {
 .heightfield-section .heightfield-stage-shell {
   width: min(100%, 820px);
   max-width: 100%;
-  height: clamp(340px, 46vh, 500px);
-  min-height: clamp(340px, 46vh, 500px);
+  height: clamp(280px, 37vw, 420px);
+  min-height: clamp(280px, 37vw, 420px);
   border: 0;
   border-radius: 22px;
   background:
@@ -2123,9 +2487,52 @@ body {
   box-shadow: none;
 }
 
+.heightfield-spiral-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  pointer-events: none;
+}
+
 @media (max-width: 720px) {
   .heightfield-section .heightfield-stage-shell {
-    height: clamp(260px, 38vh, 340px);
-    min-height: clamp(260px, 38vh, 340px);
+    height: clamp(240px, 62vw, 300px);
+    min-height: clamp(240px, 62vw, 300px);
   }
+
+  .editorial-showcase {
+    padding: 16px 16px 0;
+  }
+
+  .editorial-project {
+    min-height: auto;
+    margin-bottom: 28px;
+  }
+
+  .editorial-project-frame {
+    position: relative;
+    top: auto;
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 38px 24px 24px;
+  }
+
+  .editorial-title {
+    font-size: clamp(51px, 16vw, 76px);
+  }
+
+  .editorial-image-wrap {
+    min-height: 106vw;
+    order: -1;
+    border-radius: 2px 2px 38px 2px;
+  }
+
+  .editorial-copy {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editorial-cta { transition: none; }
 }
