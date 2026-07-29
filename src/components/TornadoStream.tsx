@@ -8,9 +8,9 @@ const IMAGES  = SPIRAL_GALLERY_IMAGES as unknown as { src: string; position: str
 const TOTAL   = IMAGES.length;
 
 // ─── Helix geometry — tuned for the 260 × 560 px tornado-box ──────────────────
-/** Square card dimensions — works with any image orientation (cover always fills fully) */
-const CARD_W = 120;
-const CARD_H = 120;
+/** Larger portrait card — image sits smaller inside for a Polaroid-frame look */
+const CARD_W = 185;
+const CARD_H = 265;
 /** Camera perspective */
 const PERSPECTIVE = 620;
 /**
@@ -19,12 +19,12 @@ const PERSPECTIVE = 620;
  * Negative offsets mirror this to create the full tornado spiral.
  */
 const ANGLE_SPAN = Math.PI * 1.15;
-/** Horizontal radius of the helix arc (px). */
-const SPIRAL_X_R = 88;
+/** Horizontal radius of the helix arc (px). Peak x ≈ 130 px < 200 px half-width. */
+const SPIRAL_X_R = 130;
 /** How deep the arc recedes (px). z = -(1-cosα)×R/2 → 0 at centre, −max at edges. */
 const SPIRAL_Z_R = 560;
-/** Vertical spacing between adjacent card centres (px). ±7×34=±238 < 280 half-height. */
-const STEP_Y = 34;
+/** Vertical spacing. ±7×46=±322 px < 340 half-height of the 680 px box. */
+const STEP_Y = 46;
 /** Maximum Y-axis card rotation (deg) — cards angle into the spiral tangent. */
 const ROT_Y_MAX = 42;
 /**
@@ -153,26 +153,64 @@ export default function TornadoStream() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // ── Wheel handler — accumulates raw pixel delta into targetProgress ────────────
+  // ── Wheel handler ─────────────────────────────────────────────────────────────
+  // Listener is scoped to the box element, so it only fires over the box —
+  // no need for an insideRef guard here.
   const onWheel = useCallback((e: WheelEvent) => {
-    if (!insideRef.current) return;
     e.preventDefault();
     e.stopPropagation();
-
     const delta =
       e.deltaMode === 1 ? e.deltaY * 32 :
       e.deltaMode === 2 ? e.deltaY * window.innerHeight * 0.8 :
       e.deltaY;
-
     targetProgressRef.current += delta / SCROLL_PER_STEP;
   }, []);
 
+  // ── Touch handlers ────────────────────────────────────────────────────────────
+  // Same progress logic as wheel — swipe up = advance, swipe down = go back.
+  // Rolling Y update on each touchmove gives a per-frame delta (not cumulative),
+  // which feels identical to wheel deltaY and feeds the same rAF lerp.
+  const touchStartYRef = useRef<number | null>(null);
+
+  const onTouchStart = useCallback((e: TouchEvent) => {
+    insideRef.current = true;
+    touchStartYRef.current = e.touches[0].clientY;
+  }, []);
+
+  const onTouchMove = useCallback((e: TouchEvent) => {
+    e.preventDefault();        // stops page from scrolling while swiping inside box
+    e.stopPropagation();
+    if (touchStartYRef.current === null) return;
+    const currentY = e.touches[0].clientY;
+    // positive delta = finger moved up = advance forward through cards
+    const deltaY   = touchStartYRef.current - currentY;
+    touchStartYRef.current = currentY;   // rolling update → per-frame delta
+    targetProgressRef.current += deltaY / (SCROLL_PER_STEP * 0.45);
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    touchStartYRef.current = null;
+    insideRef.current = false;
+  }, []);
+
+  // ── Single useEffect — register all input events on the box ──────────────────
+  // All listeners use { passive: false } so preventDefault() is allowed.
+  // touch-action: none; is already set in CSS on .tornado-box.
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
-    box.addEventListener("wheel", onWheel, { passive: false });
-    return () => box.removeEventListener("wheel", onWheel);
-  }, [onWheel]);
+    box.addEventListener("wheel",      onWheel,      { passive: false });
+    box.addEventListener("touchstart", onTouchStart, { passive: false });
+    box.addEventListener("touchmove",  onTouchMove,  { passive: false });
+    box.addEventListener("touchend",   onTouchEnd);
+    return () => {
+      box.removeEventListener("wheel",      onWheel);
+      box.removeEventListener("touchstart", onTouchStart);
+      box.removeEventListener("touchmove",  onTouchMove);
+      box.removeEventListener("touchend",   onTouchEnd);
+    };
+  }, [onWheel, onTouchStart, onTouchMove, onTouchEnd]);
+
 
   // ── Mouse enter / leave ───────────────────────────────────────────────────────
   const onMouseEnter = useCallback(() => { insideRef.current = true; }, []);
@@ -181,7 +219,27 @@ export default function TornadoStream() {
     setMouseParallax({ x: 0, y: 0 });
   }, []);
 
-  // ── External cursor parallax ──────────────────────────────────────────────────
+  // ── Global page-scroll sync ───────────────────────────────────────────────────
+  // When the user scrolls the PAGE (outside the box), images inside the box
+  // move in the same direction at the same pace — like a parallax film strip.
+  // When inside the box (insideRef=true) the box-scoped wheel/touch handler
+  // drives progress instead, so we skip here to avoid double-counting.
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const onPageScroll = () => {
+      if (insideRef.current) return;          // box-scroll takes over when inside
+      const currentY = window.scrollY;
+      const delta    = currentY - lastScrollY;
+      lastScrollY    = currentY;
+      // Same pixel→progress conversion as the wheel handler
+      targetProgressRef.current += delta / SCROLL_PER_STEP;
+    };
+
+    window.addEventListener("scroll", onPageScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onPageScroll);
+  }, []);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (insideRef.current) return;
@@ -287,7 +345,9 @@ export default function TornadoStream() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        objectPosition: IMAGES[imgIndex].position,
+                        objectPosition: "center 25%",
+                        // scale(0.88): image smaller than card → dark border frame shows around photo
+                        transform: "scale(0.88)",
                         display: "block",
                         userSelect: "none",
                       }}

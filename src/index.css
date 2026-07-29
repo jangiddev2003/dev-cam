@@ -1333,10 +1333,10 @@ input:focus-visible {
 .tornado-box {
   position: relative;
   flex-shrink: 0;
-  width: 260px;
-  height: 560px;
+  width: 400px;
+  height: 680px;
   background: #080706;
-  border-radius: 18px;
+  border-radius: 22px;
   border: 1px solid rgba(182,122,66,0.22);
   box-shadow:
     0 28px 80px rgba(0,0,0,0.30),
@@ -1497,8 +1497,8 @@ input:focus-visible {
     gap: 28px;
   }
   .tornado-box {
-    width: 220px;
-    height: 460px;
+    width: 300px;
+    height: 560px;
   }
 }
 
