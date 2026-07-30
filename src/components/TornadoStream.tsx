@@ -183,8 +183,9 @@ export default function TornadoStream() {
     e.stopPropagation();
     if (touchStartYRef.current === null) return;
     const currentY = e.touches[0].clientY;
-    // positive delta = finger moved up = advance forward through cards
-    const deltaY   = touchStartYRef.current - currentY;
+    // currentY - prev: positive when finger moves DOWN → cards go DOWN
+    //                  negative when finger moves UP   → cards go UP
+    const deltaY   = currentY - touchStartYRef.current;
     touchStartYRef.current = currentY;   // rolling update → per-frame delta
     targetProgressRef.current += deltaY / (SCROLL_PER_STEP * 0.45);
   }, []);

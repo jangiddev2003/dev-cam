@@ -899,7 +899,7 @@ input:focus-visible {
 
 .video-card:hover .tag { opacity: 0; }
 
-.play-dot {
+/* .play-dot {
   width: 48px;
   height: 48px;
   border-radius: 999px;
@@ -909,19 +909,19 @@ input:focus-visible {
   justify-content: center;
   transition: border-color 0.25s, transform 0.25s, background 0.25s;
   z-index: 2;
-}
+} */
 
 .video-card:hover .play-dot {
   border-color: var(--accent);
   background: var(--accent);
   transform: scale(1.15);
 }
-
+/* 
 .video-card:hover .play-dot .play-triangle {
   border-left-color: #fff7ee;
-}
+} */
 
-.play-triangle {
+/* .play-triangle {
   width: 0;
   height: 0;
   border-top: 6px solid transparent;
@@ -929,7 +929,7 @@ input:focus-visible {
   border-left: 10px solid var(--muted);
   margin-left: 3px;
   transition: border-left-color 0.25s;
-}
+} */
 
 .reel-hover-info {
   position: absolute;

@@ -70,7 +70,7 @@ const N = ALBUMS.length;
 const INIT = 4;  // half-integer — progress never lands on an integer, so no card is ever face-on at 0°
 
 // Cover-flow geometry
-const STEP_X     = 190;  // px between card centres
+const STEP_X  = typeof window !== "undefined" && window.innerWidth < 768 ? 110 : 190;  // px between card centres
 // const ANGLE_STEP = 55;   // deg of rotateY per card from centre
 // const MAX_ANGLE  = 70;   // clamp
 const LERP_K     = 0.12;   // exponential ease-out per frame (≈ 0.4 s to settle)
@@ -102,6 +102,7 @@ function ShelfView({ onSelect }: { onSelect: (i: number) => void }) {
   const rafId     = useRef(0);
   const inside    = useRef(false);
   const touchX    = useRef<number | null>(null);
+  const touchY    = useRef<number | null>(null);  // track vertical swipe too
   const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clampAdd = useCallback((delta: number) => {
@@ -171,18 +172,38 @@ function ShelfView({ onSelect }: { onSelect: (i: number) => void }) {
   const onTouchStart = useCallback((e: TouchEvent) => {
     inside.current = true;
     touchX.current = e.touches[0].clientX;
+    touchY.current = e.touches[0].clientY;  // record start Y
   }, []);
+
   const onTouchMove = useCallback((e: TouchEvent) => {
+    if (touchX.current === null || touchY.current === null) return;
+
+    const cx = e.touches[0].clientX;
+    const cy = e.touches[0].clientY;
+
+    const dx = touchX.current - cx;   // positive = swipe left  → next card
+    const dy = touchY.current - cy;   // positive = swipe up
+
+    touchX.current = cx;
+    touchY.current = cy;
+
+    if (Math.abs(dy) > Math.abs(dx)) {
+      // Vertical swipe — let browser scroll the page normally
+      return;
+    }
+
+    // Horizontal swipe — navigate carousel, block page scroll
     e.preventDefault(); e.stopPropagation();
-    if (touchX.current === null) return;
-    const dx = touchX.current - e.touches[0].clientX;
-    touchX.current = e.touches[0].clientX;
     clampAdd(dx / (SCROLL_DIV * 0.45));
   }, [clampAdd]);
+
+
   const onTouchEnd = useCallback(() => {
-  touchX.current = null; inside.current = false;
-  snapToNearest();
-}, [snapToNearest]);
+    touchX.current = null;
+    touchY.current = null;
+    inside.current = false;
+    snapToNearest();
+  }, [snapToNearest]);
 
   useEffect(() => {
     const s = stageRef.current; if (!s) return;
@@ -343,10 +364,14 @@ function ExpandedView({ album, onClose }: { album: Album; onClose: () => void })
           <button
             className="cf-pill-btn cf-pill-primary"
             style={{ background: album.accent, color: album.bg }}
+            onClick={() => {
+              onClose();                                      // close expanded view
+              window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to landing
+            }}
           >
             ▶ View Gallery
           </button>
-          <button className="cf-pill-btn cf-pill-ghost">⬡ Share</button>
+
         </div>
       </motion.div>
 
