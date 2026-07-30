@@ -84,6 +84,8 @@ function getCardStyle(
     position: "absolute",
     left: "50%",
     top: "50%",
+    WebkitBackfaceVisibility: "hidden",
+    backfaceVisibility: "hidden",
     width: CARD_W,
     height: CARD_H,
     marginLeft: -CARD_W / 2,

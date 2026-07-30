@@ -1391,6 +1391,10 @@ input:focus-visible {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* ── Hint & counter overlays — readable on cream ─────────── */
