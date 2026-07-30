@@ -12,7 +12,7 @@ const TOTAL   = IMAGES.length;
 const CARD_W = 185;
 const CARD_H = 265;
 /** Camera perspective */
-const PERSPECTIVE = 1250;
+const PERSPECTIVE = 900;
 /**
  * Total arc angle the helix sweeps (radians).
  * 1.15π ≈ 207° gives a clean S-curve: centre → right peak → back left.
