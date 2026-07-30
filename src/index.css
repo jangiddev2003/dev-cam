@@ -1493,7 +1493,7 @@ input:focus-visible {
 @media (max-width: 680px) {
   .tornado-layout {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-center;
     gap: 28px;
   }
   .tornado-box {
@@ -1994,6 +1994,18 @@ input:focus-visible {
   .carousel-reel-card {
     flex-basis: 74%;
     min-width: 74%;
+  }
+
+    .carousel-track {
+    padding-left: 14%;
+    padding-right: 13%;
+    scroll-padding-left: 13%;
+    scroll-padding-right: 13%;
+  }
+
+  .carousel-card,
+  .carousel-reel-card {
+    scroll-snap-align: center;
   }
 
   .carousel-arrow {
