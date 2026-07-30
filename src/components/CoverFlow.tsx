@@ -71,15 +71,15 @@ const INIT = 4;  // half-integer — progress never lands on an integer, so no c
 
 // Cover-flow geometry
 const STEP_X     = 190;  // px between card centres
-const ANGLE_STEP = 55;   // deg of rotateY per card from centre
-const MAX_ANGLE  = 70;   // clamp
+// const ANGLE_STEP = 55;   // deg of rotateY per card from centre
+// const MAX_ANGLE  = 70;   // clamp
 const LERP_K     = 0.12;   // exponential ease-out per frame (≈ 0.4 s to settle)
 const MIN_DELTA  = 0.0004;
 const SCROLL_DIV = 90;   // px of wheel delta per one card step
 
 function calcStyle(offset: number) {
   const abs  = Math.abs(offset);
-  const sign = Math.sign(offset);
+  // const sign = Math.sign(offset);
   return {
     tx: offset * STEP_X,                               // translateX (px)
     // ry: sign * Math.min(abs * ANGLE_STEP, MAX_ANGLE),  // rotateY (deg)
