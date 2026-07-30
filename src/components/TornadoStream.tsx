@@ -100,13 +100,14 @@ function getCardStyle(
     willChange: "transform, filter, opacity",
     // No CSS transition — positions are driven frame-by-frame via rAF lerp,
     // so CSS transitions would fight the animation and cause double-easing.
-    borderRadius: 10,
+    borderRadius: 20,
+    border: "5px solid #000",
     overflow: "hidden",
-    background: "#000",          // black fill — no white bleeds through on any image
+    background: "#fff",
     boxShadow:
       absOffset < 0.5
-        ? "0 20px 56px rgba(0,0,0,0.85), 0 4px 14px rgba(0,0,0,0.65)"
-        : "0 4px 18px rgba(0,0,0,0.55)",
+        ? "0 12px 40px rgba(0,0,0,0.55)"
+        : "0 4px 16px rgba(0,0,0,0.35)",
     zIndex: Math.round(100 - absOffset * 10),
     pointerEvents: offset === 0 ? "auto" : "none",
   };
@@ -344,12 +345,12 @@ export default function TornadoStream() {
                       style={{
                         width: "100%",
                         height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center 25%",
-                        // scale(0.88): image smaller than card → dark border frame shows around photo
-                        transform: "scale(0.88)",
+                        objectFit: "contain",       // full image visible — no cropping
+                        objectPosition: "center center",
                         display: "block",
                         userSelect: "none",
+                        background: "#fff",         // white fill behind image
+                        padding: "6px",             // small inner margin for Polaroid feel
                       }}
                       loading="lazy"
                     />
@@ -382,24 +383,30 @@ export default function TornadoStream() {
 
           {/* ── Right: description ─────────────────────────────────────────── */}
           <div className="tornado-copy">
-            <p className="mono tornado-tag">3D CARD STREAM</p>
+            <p className="mono tornado-tag">PREWEDDING FILM</p>
             <h3 className="display tornado-headline">
-              Every frame<br />in depth.
+              Every glance,<br /><em style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontWeight: 400 }}>held</em> forever.
             </h3>
             <p className="tornado-body">
-              A spiral of photographs receding into space. Scroll
-              inside the frame to step through the archive — one shot
-              at a time — while the rest of the page stays still.
+              Ten moments between two people, caught in golden light
+              and quiet in‑betweens. Scroll inside the frame below to step
+              through the story — one moment at a time — while the page
+              around it holds still.
             </p>
             <div className="tornado-meta mono">
               <span>
-                <span className="tornado-meta-label">IMAGES</span>
-                <span className="tornado-meta-value">{TOTAL}</span>
+                <span className="tornado-meta-label">MOMENTS</span>
+                <span className="tornado-meta-value">10</span>
               </span>
               <span className="tornado-meta-divider" />
               <span>
-                <span className="tornado-meta-label">DEPTH</span>
-                <span className="tornado-meta-value">3D CSS</span>
+                <span className="tornado-meta-label">LIGHT</span>
+                <span className="tornado-meta-value">Golden hour</span>
+              </span>
+              <span className="tornado-meta-divider" />
+              <span>
+                <span className="tornado-meta-label">FORMAT</span>
+                <span className="tornado-meta-value">3D scroll spiral</span>
               </span>
             </div>
           </div>
