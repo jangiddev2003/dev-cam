@@ -384,25 +384,22 @@ export default function TornadoStream() {
 
           {/* ── Right: description ─────────────────────────────────────────── */}
           <div className="tornado-copy">
-            <p className="mono tornado-tag">PREWEDDING FILM</p>
+            <p className="mono tornado-tag">CANDID FILM</p>
             <h3 className="display tornado-headline">
               Every glance,<br /><em style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontWeight: 400 }}>held</em> forever.
             </h3>
             <p className="tornado-body">
-              Ten moments between two people, caught in golden light
-              and quiet in‑betweens. Scroll inside the frame below to step
-              through the story — one moment at a time — while the page
-              around it holds still.
+              Eight moments from ordinary days, caught without asking them to pose. Scroll inside the frame below to step through them one at a time — quiet, unscripted, real.
             </p>
             <div className="tornado-meta mono">
               <span>
                 <span className="tornado-meta-label">MOMENTS</span>
-                <span className="tornado-meta-value">10</span>
+                <span className="tornado-meta-value">8</span>
               </span>
               <span className="tornado-meta-divider" />
               <span>
                 <span className="tornado-meta-label">LIGHT</span>
-                <span className="tornado-meta-value">Golden hour</span>
+                <span className="tornado-meta-value">Natural</span>
               </span>
               <span className="tornado-meta-divider" />
               <span>
